@@ -1,0 +1,74 @@
+# Joint continuous-discrete diffusion with LSP for CoraChameleon Dataset
+
+general:
+  name: 'LogNormal-Node100'  # Name of the experiment/configuration
+  seed: 42
+  check_val_every_n_epochs: 10
+  sample_every_val: 10
+  number_chain_steps: 500
+  samples_to_generate: 100
+  chains_to_save: 1
+  final_model_samples_to_generate: 100
+  final_model_samples_to_save: 100
+
+dataset:
+  name: 'corachameleon'
+  datadir: 'data/CoraChameleon/'
+
+  # CoraChameleon specific settings
+  node_size: 100       # Options: 10, 30, 40, 50, 100, 500
+  split_type: 'S1'        
+  num_train_graphs: 3000 
+
+  # Single graph mode for overfitting test
+  single_graph: false
+  single_graph_idx: 0
+
+model:
+  # Architecture
+  n_layers: 6
+  hidden_dims:
+    dx: 256
+    de: 64
+    dy: 64
+    n_head: 8
+    dim_ffX: 256
+    dim_ffE: 64
+    dim_ffY: 256
+  hidden_mlp_dims:
+    X: 128
+    E: 64
+    y: 128
+
+  # Diffusion (shared schedule for continuous and discrete)
+  diffusion_steps: 500
+  diffusion_noise_schedule: 'cosine'
+
+  # Extra features for the network input (optional)
+  # 'none'             = only u_t as node features
+  # 'cycles'           = raw k3-k6 cycle counts (divided by 10, clamped)
+  # 'norm_cycles'      = k3 replaced by local clustering coeff [0,1]; k4/k5/k6 still /10
+  # 'eigenvalues'      = raw cycles + combinatorial Laplacian eigenvalues
+  # 'all'              = raw cycles + eigenvalues + eigenvectors
+  # 'norm_all'         = norm_cycles + eigenvalues + eigenvectors
+
+  extra_features: 'none'
+  crm:       
+    lambda_w: 5.0                                 
+    u_clamp: 15.0         
+
+    # CRM sociability prior (mu_pi, sigma_pi auto-calibrated from dataset)
+    prior:
+      family: lognormal       # LogNormal sociability prior 
+  # Loss weights
+  lambda_train:
+    - 5.0   # Edge cross-entropy weight
+    - 0.0   # y weight (unused but kept for compatibility)
+
+train:
+  n_epochs: 5000
+  batch_size: 32
+  lr: 0.0001
+  weight_decay: 0.00012       
+  log_every_steps: 100
+  save_every_epochs: 100

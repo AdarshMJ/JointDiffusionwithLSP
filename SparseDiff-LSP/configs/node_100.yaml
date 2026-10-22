@@ -1,0 +1,48 @@
+# SparseDiffLSP — CoraChameleon node_100
+# 100-node subgraphs from CoraChameleon dataset
+
+general:
+  name: 'SparseDiffLSP-Node100'
+  seed: 42
+  check_val_every_n_epochs: 10
+  sample_every_val: 10
+  samples_to_generate: 100
+  final_model_samples_to_generate: 100
+
+dataset:
+  name: 'node_100'
+  datadir: '../data/CoraChameleon'
+  node_size: 100
+  split_type: 'S1'
+  num_train_graphs: 3000
+
+model:
+  n_layers: 6
+  hidden_dims:
+    dx: 256
+    de: 64
+    dy: 64
+    n_head: 8
+    dim_ffX: 256
+    dim_ffE: 64
+    dim_ffy: 128
+
+  diffusion_steps: 500
+  edge_fraction: 0.5
+  extra_features: 'none'
+  pred_param: 'x0'
+
+  gamma: 1.0
+  lambda_w: 5.0
+  u_clamp: 15.0
+
+  dropout: 0.1
+
+train:
+  n_epochs: 100
+  batch_size: 32
+  lr: 0.0001
+  weight_decay: 0.00001
+  num_workers: 0
+  log_every_steps: 10
+  save_every_epochs: 10
