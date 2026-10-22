@@ -4,7 +4,7 @@
 
 <h3>🎉 Accepted at NeurIPS 2026 🎉</h3>
 
-[![NeurIPS 2026](https://openreview.net/forum?id=p1zm5z8W2c)
+[![NeurIPS 2026](https://img.shields.io/badge/NeurIPS-2026-4B44CE.svg)](https://openreview.net/forum?id=p1zm5z8W2c)
 [![arXiv](https://img.shields.io/badge/arXiv-2610.13765-b31b1b.svg)](https://arxiv.org/abs/2610.13765)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-Graph_Diffusion-EE4C2C.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
